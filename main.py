@@ -1,7 +1,9 @@
 import PySimpleGUI as sg
 
+control_layout = sg.Column([[]])
+image_layout = sg.Column([[sg.Image("bird.png")]])
 
-layout = [[]]
+layout = [[image_layout]]
 
 window = sg.Window("Image Editor", layout)
 
