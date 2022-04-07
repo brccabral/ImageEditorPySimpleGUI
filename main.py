@@ -1,9 +1,11 @@
 import PySimpleGUI as sg
-from PIL import Image
+from PIL import Image, ImageFilter
+from PIL.Image import Image as Im
+from io import BytesIO
 
 
 def update_image(
-    original: Image,
+    original: Im,
     blur: sg.Slider,
     contrast: sg.Slider,
     emboss: sg.Checkbox,
@@ -11,7 +13,14 @@ def update_image(
     flipx: sg.Checkbox,
     flipy: sg.Checkbox,
 ):
-    print(original)
+    image = original.filter(ImageFilter.GaussianBlur(blur))
+
+    # convert to bytes
+    image_bytes = BytesIO()
+    image.save(image_bytes, format="PNG")
+
+    # update GUI
+    window["-IMAGE-"].update(data=image_bytes.getvalue())
 
 
 image_path = "bird.png"
@@ -39,7 +48,7 @@ control_layout = sg.Column(
         [sg.Button("Save image", key="-SAVE-")],
     ]
 )
-image_layout = sg.Column([[sg.Image(image_path)]])
+image_layout = sg.Column([[sg.Image(image_path, key="-IMAGE-")]])
 
 layout = [[control_layout, image_layout]]
 
