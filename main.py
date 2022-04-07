@@ -1,5 +1,21 @@
 import PySimpleGUI as sg
+from PIL import Image
 
+
+def update_image(
+    original: Image,
+    blur: sg.Slider,
+    contrast: sg.Slider,
+    emboss: sg.Checkbox,
+    contour: sg.Checkbox,
+    flipx: sg.Checkbox,
+    flipy: sg.Checkbox,
+):
+    print(original)
+
+
+image_path = "bird.png"
+original = Image.open(image_path)
 
 control_layout = sg.Column(
     [
@@ -23,15 +39,25 @@ control_layout = sg.Column(
         [sg.Button("Save image", key="-SAVE-")],
     ]
 )
-image_layout = sg.Column([[sg.Image("bird.png")]])
+image_layout = sg.Column([[sg.Image(image_path)]])
 
 layout = [[control_layout, image_layout]]
 
 window = sg.Window("Image Editor", layout)
 
 while True:
-    event, values = window.read()
+    event, values = window.read(timeout=50)
     if event == sg.WIN_CLOSED:
         break
+
+    update_image(
+        original,
+        values["-BLUR-"],
+        values["-CONTRAST-"],
+        values["-EMBOSS-"],
+        values["-CONTOUR-"],
+        values["-FLIPX-"],
+        values["-FLIPY-"],
+    )
 
 window.close()
