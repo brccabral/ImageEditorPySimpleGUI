@@ -38,7 +38,10 @@ def update_image(
     return image
 
 
-image_path = "bird.png"
+image_path = sg.popup_get_file("Open", no_window=True)
+if not image_path:
+    raise Exception("No image selected.")
+
 original = Image.open(image_path)
 
 control_layout = sg.Column(
