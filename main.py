@@ -35,6 +35,8 @@ def update_image(
     # update GUI
     window["-IMAGE-"].update(data=image_bytes.getvalue())
 
+    return image
+
 
 image_path = "bird.png"
 original = Image.open(image_path)
@@ -72,7 +74,7 @@ while True:
     if event == sg.WIN_CLOSED:
         break
 
-    update_image(
+    image = update_image(
         original,
         values["-BLUR-"],
         values["-CONTRAST-"],
@@ -81,5 +83,10 @@ while True:
         values["-FLIPX-"],
         values["-FLIPY-"],
     )
+
+    if event == "-SAVE-":
+        save_path = sg.popup_get_file("Save", save_as=True, no_window=True)
+        if save_path:
+            image.save(save_path)
 
 window.close()
