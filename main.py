@@ -1,5 +1,5 @@
 import PySimpleGUI as sg
-from PIL import Image, ImageFilter
+from PIL import Image, ImageFilter, ImageOps
 from PIL.Image import Image as Im
 from io import BytesIO
 
@@ -21,6 +21,12 @@ def update_image(
 
     if contour:
         image = image.filter(ImageFilter.CONTOUR())
+
+    if flipx:
+        image = ImageOps.mirror(image)
+
+    if flipy:
+        image = ImageOps.flip(image)
 
     # convert to bytes
     image_bytes = BytesIO()
