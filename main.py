@@ -14,6 +14,7 @@ def update_image(
     flipy: sg.Checkbox,
 ):
     image = original.filter(ImageFilter.GaussianBlur(blur))
+    image = image.filter(ImageFilter.UnsharpMask(contrast))
 
     # convert to bytes
     image_bytes = BytesIO()
