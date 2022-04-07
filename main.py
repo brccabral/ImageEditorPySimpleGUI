@@ -19,6 +19,9 @@ def update_image(
     if emboss:
         image = image.filter(ImageFilter.EMBOSS())
 
+    if contour:
+        image = image.filter(ImageFilter.CONTOUR())
+
     # convert to bytes
     image_bytes = BytesIO()
     image.save(image_bytes, format="PNG")
