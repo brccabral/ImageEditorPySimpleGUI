@@ -16,6 +16,9 @@ def update_image(
     image = original.filter(ImageFilter.GaussianBlur(blur))
     image = image.filter(ImageFilter.UnsharpMask(contrast))
 
+    if emboss:
+        image = image.filter(ImageFilter.EMBOSS())
+
     # convert to bytes
     image_bytes = BytesIO()
     image.save(image_bytes, format="PNG")
